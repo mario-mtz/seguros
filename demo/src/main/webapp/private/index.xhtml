@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                template="../template/main.xhtml">
+    
+    <ui:define name="contentPart">             
+        <h:form id="test-form" styleClass="bo">
+<!--              <style>
+              .bo {
+                background: url(../resources/images/home2.jpg) no-repeat;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                height: 100%;
+                background-color: #faffff;
+              }
+        </style>   -->
+        <p:dataGrid var="ap" value="#{mainController.aplicaciones}" columns="3" layout="grid"
+	        paginator="false" id="aplicationes" >
+	         
+	        <f:facet name="header">
+	            Aplicaciones
+	        </f:facet>
+	 
+	        <p:panel header="#{ap.nombre}" style="text-align:center">
+	            <h:panelGrid columns="1" style="width:100%">	    
+	            <h:outputLink value="http://#{ap.enlace}?#{ap.nombre}" target="_blank">#{ap.enlace}</h:outputLink>             	 	 	                
+	            </h:panelGrid>
+	        </p:panel>	 
+	    </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

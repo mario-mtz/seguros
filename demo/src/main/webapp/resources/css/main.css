@@ -1,0 +1,40 @@
+.buttonHolder{
+    text-align: right;
+}
+
+.ui-panelgrid td, .ui-panelgrid tr
+{
+    border-style: none !important;
+}
+
+.title
+{
+    color: #2779aa;
+}
+
+.ui_tpicker_minute_label{
+    display:none;
+}
+
+.ui_tpicker_minute{
+    display:none;
+}
+
+.ui-layout-unit {
+	border-style: none !important;
+	border: 0 !important;
+}
+
+.ui-layout-resizer {
+/* 	background-color: #FFF !important; */
+	height: 1px !important;
+}
+
+.ui-datagrid-header {
+	border-style: none !important;
+	background-color: #fff !important;
+}
+
+.ui-datagrid-content {
+	border-style: none !important;
+}

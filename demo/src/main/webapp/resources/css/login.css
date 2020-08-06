@@ -1,0 +1,18 @@
+body{
+    background: url(../images/main-back.jpg) no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    background-color: #faffff;
+}
+
+.ui-panelgrid td, .ui-panelgrid tr
+{
+    border-style: none !important
+}
+
+.buttonHolder{
+    text-align: center;
+}
