@@ -20,7 +20,7 @@
         </style>   -->
        	<p:commandButton value="Ver Gráfica" id="ajax" update="panel" action="#{mainController.executeCommand}" styleClass="ui-priority-primary" />
        	<p:outputPanel id="panel">
-       		<p:chart render="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
+       		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
        	</p:outputPanel>
         </h:form>
     </ui:define>

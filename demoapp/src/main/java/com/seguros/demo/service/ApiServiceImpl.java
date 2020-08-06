@@ -21,7 +21,6 @@ import com.seguros.demo.model.ApplicationData;
 import com.seguros.demo.model.SessionData;
 
 @Service	
-@Scope(WebApplicationContext.SCOPE_SESSION)
 public class ApiServiceImpl implements ApiService {
 	
 	Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
@@ -35,7 +34,7 @@ public class ApiServiceImpl implements ApiService {
 	@Value("${conf.socket.charset}")
 	private String charsetProp;
 	
-	private Charset charset = Charset.forName(charsetProp);
+	private Charset charset = Charset.forName("ASCII");
 	
 	private Socket clientSocket;
     private OutputStream out;
@@ -50,7 +49,7 @@ public class ApiServiceImpl implements ApiService {
 			if(response.contains(OK)) {
 				String [] values = response.split(";");
 				session.setNuu(values[1]);
-				session.setNuu(values[2]);
+				session.setNuc(values[2]);
 				return Boolean.TRUE;
 			}    		
 		} catch (Exception e) {
@@ -74,7 +73,7 @@ public class ApiServiceImpl implements ApiService {
     
     public Boolean getApplicationsCredentials() {
     	try {	    	
-	    	String message = String.format("<GETCFGACTU;%s;%s;TELRC>", session.getNuc(), session.getNuu());    		
+	    	String message = String.format("<GETCFGACTU;126;1387;TELRC>", session.getNuc(), session.getNuu());    		
 			String response = sendMessage(message);
 			if(response.contains("TELRC")) {
 				String []values = response.split(":");
@@ -95,7 +94,7 @@ public class ApiServiceImpl implements ApiService {
     	try {	    	
 	    	String message = String.format("<VALCOMXEXP;126;1387;False;False;dir;TELRC>");    		
 			String response = sendMessage(message);
-			String []values = response.split(":");
+			String []values = response.split(",");
 			if(values[3].equals(CMD_ACCEPTED)) {
 				return Boolean.TRUE;
 			}
@@ -130,7 +129,6 @@ public class ApiServiceImpl implements ApiService {
 		byte [] msg = message.getBytes(charset);
         out.write(msg);
         String response = in.readLine();
-        response = response.substring(1, response.length() - 2);
         logger.info("getApplications Response -> {}", response);        
         stopConnection();
         return response;        

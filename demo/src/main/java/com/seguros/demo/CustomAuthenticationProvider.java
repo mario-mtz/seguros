@@ -16,12 +16,9 @@ import com.seguros.demo.service.ApiService;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
-	private final ApiService apiService;
-	
 	@Autowired
-	public CustomAuthenticationProvider(ApiService apiService) {
-		this.apiService = apiService;
-	}
+	private ApiService apiService;
+	
 
 	@Override
     public Authentication authenticate(Authentication authentication) 

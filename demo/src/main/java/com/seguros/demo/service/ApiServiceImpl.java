@@ -21,7 +21,6 @@ import com.seguros.demo.model.ApplicationData;
 import com.seguros.demo.model.SessionData;
 
 @Service	
-@Scope(WebApplicationContext.SCOPE_SESSION)
 public class ApiServiceImpl implements ApiService {
 	
 	Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
@@ -35,7 +34,7 @@ public class ApiServiceImpl implements ApiService {
 	@Value("${conf.socket.charset}")
 	private String charsetProp;
 	
-	private Charset charset = Charset.forName(charsetProp);
+	private Charset charset = Charset.forName("ASCII");
 	
 	private Socket clientSocket;
     private OutputStream out;
@@ -50,7 +49,7 @@ public class ApiServiceImpl implements ApiService {
 			if(response.contains(OK)) {
 				String [] values = response.split(";");
 				session.setNuu(values[1]);
-				session.setNuu(values[2]);
+				session.setNuc(values[2]);
 				return Boolean.TRUE;
 			}    		
 		} catch (Exception e) {
@@ -130,7 +129,6 @@ public class ApiServiceImpl implements ApiService {
 		byte [] msg = message.getBytes(charset);
         out.write(msg);
         String response = in.readLine();
-        response = response.substring(1, response.length() - 2);
         logger.info("getApplications Response -> {}", response);        
         stopConnection();
         return response;        

@@ -28,7 +28,7 @@ public class MainController {
 	private final MainService mainService;
     private final ApiService apiService;
     
-    private BarChartModel barModel;
+    @Getter @Setter private BarChartModel barModel;
 
 	@Getter @Setter private Boolean commandAvailable = false;
 	

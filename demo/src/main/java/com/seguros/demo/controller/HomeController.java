@@ -5,6 +5,7 @@
  */
 package com.seguros.demo.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +13,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+
+import com.seguros.demo.model.Role;
 
 import lombok.Getter;
 
@@ -27,10 +30,12 @@ public class HomeController {
     @Getter private String rol;
     
     @PostConstruct
+    @SuppressWarnings("unchecked")
     public void init() {
     	SecurityContextHolder.getContext().getAuthentication().getPrincipal();   
-        userName = SecurityContextHolder.getContext().getAuthentication().getName();        
-        rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).collect(Collectors.joining(","));
+        userName = SecurityContextHolder.getContext().getAuthentication().getName();                
+		List<Role> roles = (List<Role>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        rol = roles.stream().map(Role::getAuthority).collect(Collectors.joining(","));
     }
    
 }

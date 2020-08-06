@@ -61,7 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
           .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/Login.xhtml").logoutSuccessHandler(logoutSuccessHandler()).and().httpBasic();
+                .logoutSuccessUrl("/Login.xhtml")
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .and().httpBasic();
     }
 
 	@Bean

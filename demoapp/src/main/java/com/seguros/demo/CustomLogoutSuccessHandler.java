@@ -18,7 +18,6 @@ SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
 	
 	@Autowired private ApiService apiService;
 	
-	@Autowired
 	@Override
     public void onLogoutSuccess(
       HttpServletRequest request, 
@@ -26,7 +25,11 @@ SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
       Authentication authentication) 
       throws IOException, ServletException {
 		apiService.closeSession();
-        super.onLogoutSuccess(request, response, authentication);
+        //super.onLogoutSuccess(request, response, authentication);
+		String basePath = String.format("%s://%s:%s", request.getScheme(), request.getServerName(), request.getServerPort());  
+		String otherContext = "Login.xhtml";
+
+		response.sendRedirect(basePath + "/" + otherContext);
     }
 
 }
