@@ -34,3 +34,7 @@ build/
 
 /demo/bin/
 demo/bin/
+/demoapp/bin/
+demoapp/bin/
+/testdb/bin/
+testdb/bin/
