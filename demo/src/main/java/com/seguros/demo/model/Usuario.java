@@ -30,7 +30,7 @@ public class Usuario {
 	private String nombre;
 	@NotBlank
 	private String direccion;
-	@NotBlank @Email
+	@Email(regexp = ".+@.+\\..+")
 	private String email;
 	
 }

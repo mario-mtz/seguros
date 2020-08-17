@@ -2,6 +2,8 @@ package com.seguros.demo;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ class DemoApplicationTests {
 
 	@Test
 	@Autowired
+	@Transactional
 	void contextLoads(UsuarioService usuarioService) {
 		Usuario usuario = new Usuario();
 		usuario.setUsername("admin");
@@ -35,6 +38,7 @@ class DemoApplicationTests {
 		logger.info("usuarios size {}", usuarios.size());
 		
 		usuarios.stream().forEach( u -> logger.info(u.getNombre()) );
+		assert(true);
 	}
 
 }

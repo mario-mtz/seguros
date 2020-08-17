@@ -44,7 +44,7 @@ public class UsuarioInfoController {
 		String action = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("action");
 		if(action.equals("update")) {			
 			List<Usuario> list = this.usuarioService.getUsuarios();
-			this.usuario = this.usuarioService.findByUsername("username");
+			this.usuario = this.usuarioService.findByUsername("Test01");
 			this.isNew = Boolean.FALSE;
 			if(this.usuario == null) {
 				cancelar();

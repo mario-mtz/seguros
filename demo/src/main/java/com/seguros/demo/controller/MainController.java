@@ -29,7 +29,7 @@ public class MainController {
 	
 	@PostConstruct
 	public void init() {
-		//aplicaciones = mainService.getAplicaciones();
+		aplicaciones = mainService.getAplicaciones();
 		this.apiService.getApplications();
 	} 
 	
