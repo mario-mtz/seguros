@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -42,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         http.csrf().disable()
           .authorizeRequests()
           .antMatchers("/private/**").access("isAuthenticated()")
+          .antMatchers("/public/**","/resources/**").permitAll()
 //                .antMatchers("/css/**", "/login.html", "/login", "/api/proyectos").permitAll()
 //                .antMatchers("/proyecto", "/proyecto/consultar/**").hasAnyRole("ADMIN", "VISOR")
 //                .antMatchers("/proyecto/**", "/api/auth/**").hasAnyRole("ADMIN")
@@ -63,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
     }
 
 	@Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

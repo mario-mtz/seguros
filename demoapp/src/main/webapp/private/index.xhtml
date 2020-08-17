@@ -22,6 +22,10 @@
        	<p:outputPanel id="panel">
        		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
        	</p:outputPanel>
+       	<p:commandButton value="Ver Gráfica" id="ajax2" update="panel2" action="#{mainController.executeExtraCommand}" styleClass="ui-priority-primary" />
+       	<p:outputPanel id="panel2">
+       		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
+       	</p:outputPanel>
         </h:form>
     </ui:define>
 </ui:composition>

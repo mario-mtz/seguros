@@ -45,7 +45,11 @@ public class MainController {
 	} 
 	
 	public void executeCommand() {
-		this.commandAvailable = this.apiService.executeCommand();
+		this.commandAvailable = this.apiService.executeCommand("dir");
+	}
+	
+	public void executeExtraCommand() {
+		this.commandAvailable = this.apiService.executeCommand("ls");
 	}
 	
 	private void createBarModel() {

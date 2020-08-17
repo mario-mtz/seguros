@@ -1,20 +1,19 @@
 package com.seguros.demo.controller;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@Scope("view")
+import com.seguros.demo.model.Usuario;
+import com.seguros.demo.service.UsuarioService;
+
+@RestController
 public class TestController {
-		
-	@Setter @Getter private String nombre;    		      
-	@Setter @Getter private String saludo;
 	
-	public void hola() {
-		saludo = String.format("Hola! %s", nombre);
-	}
-
+	@Autowired UsuarioService usuarioService;
+	
+	@GetMapping("/users")
+	public List<Usuario> getUsers() { return usuarioService.getUsuarios();}
 }

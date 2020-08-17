@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registro</title>
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+        <h:outputStylesheet library="css" name="main.css"  />
+        <h:outputScript library="primefaces" name="jquery/jquery.js" /> 
+        <h:outputScript library="js" name="PrimefacesCalendarTranslationES.js" />         
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true" >
+            <p:layoutUnit position="north" size="70" >                
+	            <ui:insert name="headerPart" >
+            		<h:panelGrid >
+						<h:graphicImage style="bottom: 0" library="images" name="normal.jpg" width="60" height="40" title="Empresa"/>							 
+					</h:panelGrid>                                       
+	            </ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center" >
+                <ui:insert name="contentPart"/>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="50" >
+                <ui:insert name="footerPArt">
+                    <div style="text-align: left; font-size: 8pt">
+                        <h:graphicImage library="images" name="redlogo.png" width="90" height="32" title="Red Cricket"/>
+                    </div>
+                </ui:insert>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
+

@@ -38,3 +38,19 @@
 .ui-datagrid-content {
 	border-style: none !important;
 }
+
+.panelGridCenter {
+    margin: 0 auto;
+}
+
+.red-button.ui-button.ui-state-default {
+        background-color: #d9534f !important;
+        border-color: #d9534f !important;
+        color: #fff !important;
+    }
+ 
+.red-button.ui-button.ui-state-default:enabled:hover, 
+.red-button.ui-button.ui-state-default:focus {
+    background-color: #d43f3a !important;
+    border-color: #d9534f !important;
+}

@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                template="../template/main.xhtml">
+    c
+    <ui:define name="contentPart">     
+     	<h:form id="usuario-form">
+     	
+ 			<p:messages id="messages" showDetail="false" closable="true"  >
+        		<p:autoUpdate />
+    		</p:messages>
+    		 <p:outputPanel rendered="#{usuarioInfoController.registered and usuarioInfoController.isNew}">
+	              <div class="ui-g">
+	              		<div class="ui-g-4"></div>
+					   <div class="ui-g-5">
+					       <p:staticMessage severity="info" summary="Has sido registrado exitosamente!" detail="redireccionado al login..." />
+					   </div>
+	    			</div>	
+	    			<script type="text/javascript">
+					(function(){
+					   setTimeout(function(){
+					     window.location="http://localhost:8080/Login.xhtml";
+					   },4000); /* 1000 = 1 second*/
+					})();
+ 					</script>	  
+			</p:outputPanel> 
+	        <h:panelGrid columns="2" cellpadding="5" styleClass="panelGridCenter" style="width: 100%" >
+		        
+		        <p:outputLabel for="username" value="Username" style=" margin-left:70%" />
+			    <p:inputText id="username" value="#{usuarioInfoController.usuario.username}" required="true" style="width:25%" rendered="#{usuarioInfoController.isNew}" 
+			    	requiredMessage="Ingrese un nombe de usuario"/>
+			    <h:outputLabel value="#{usuarioInfoController.usuario.username}" rendered="#{!usuarioInfoController.isNew}" />
+		   		
+		   		<p:outputLabel rendered="#{usuarioInfoController.isNew eq true}" for="pwd1" value="Password" style=" margin-left:70%"/>
+			       <p:password id="pwd1"  value="#{usuarioInfoController.usuario.password}" match="pwd2" label="Password" rendered="#{usuarioInfoController.isNew eq true}" style="width:25%" required="true"
+			       validatorMessage="Ingrese un password de almenos 8 caracteres, con una letra, un dígito y un símbolo" requiredMessage="Ingrese un password de almenos 8 caracteres, con una letra, un dígito y un símbolo" />
+			       
+		   		<p:outputLabel rendered="#{usuarioInfoController.isNew eq true}" for="pwd2" value="Confirmar Password" style=" margin-left:70%"/>
+		   		   <p:password id="pwd2" value="#{usuarioInfoController.usuario.password}" label="Password 2" rendered="#{usuarioInfoController.isNew eq true}" required="true" style="width:25%" 
+		   		   validatorMessage="El password de confirmación debe ser igual al primero" requiredMessage="El password de confirmación debe ser igual al primero"/>
+			       
+		   		<p:outputLabel for="nombre" value="Nombre Completo" style=" margin-left:70%"/>
+			       <p:inputText id="nombre" value="#{usuarioInfoController.usuario.nombre}" required="true" style="width:25%" requiredMessage="Ingrese un nombe"/>
+			       
+		   		<p:outputLabel for="direccion" value="Dirección" style=" margin-left:70%"/>
+			       <p:inputText id="direccion" value="#{usuarioInfoController.usuario.direccion}" required="true" style="width:50%" requiredMessage="Ingrese una dirección"/>
+			       
+			   <p:outputLabel for="email" value="Email" style=" margin-left:70%"/>		   		
+			       <p:inputText id="email" value="#{usuarioInfoController.usuario.email}" required="true" style="width:25%" 
+			       requiredMessage="Ingrese email válido" validatorMessage="Ingrese email válido"/>			       
+
+
+				<p:commandButton onclick="PF('dlg2').show();" rendered="#{!usuarioInfoController.isNew}" value="Cambiar Password" id="CambiarPassword" styleClass="red-button" style="margin-top:10px; margin-left:70%" />
+		   		<p:commandButton value="Cancelar" rendered="#{usuarioInfoController.isNew}" immediate="true" id="Cancelar" action="#{usuarioInfoController.cancelar}" styleClass="red-button" style="margin-top:10px; margin-left:70%" />   		   		 
+		   		<p:commandButton value="Guardar" id="Guardar" update="usuario-form" action="#{usuarioInfoController.saveUsuario}" styleClass="ui-priority-primary" style="margin-top:10px" />		   		
+		   		
+	        </h:panelGrid>     	           	
+        </h:form>           
+      <p:dialog header="Modal Dialog" widgetVar="dlg2" height="180" width="500" modal="true" appendTo="@(body)"  rendered="#{!usuarioInfoController.isNew}">
+    		 <h:form id="pwd-form" >     	 		
+		        <h:panelGrid columns="2" cellpadding="5" styleClass="panelGridCenter" style="width: 100%">		        		       
+			   		
+			   		<p:outputLabel for="pwd1" value="Password" />
+				       <p:password id="pwd1"  value="#{usuarioInfoController.usuario.password}" match="pwd2" label="Password" required="true" 
+				       validatorMessage="Ingrese un password de almenos 8 caracteres, con una letra, un dígito y un símbolo" requiredMessage="Ingrese un password de almenos 8 caracteres, con una letra, un dígito y un símbolo" />
+				       
+			   		<p:outputLabel for="pwd2" value="Confirmar Password" />
+			   		   <p:password id="pwd2" value="#{usuarioInfoController.usuario.password}" label="Password 2" required="true"  
+			   		   validatorMessage="El password de confirmación debe ser igual al primero" requiredMessage="El password de confirmación debe ser igual al primero"/>
+				       		   		
+	<!-- 		   		<p:commandButton value="Cancelar" immediate="true" id="Cancelar" action="#{usuarioInfoController.cancelar}" styleClass="red-button" style="margin-top:10px; margin-left:70%" />   		 -->
+					<span></span>
+			   		<p:commandButton value="Guardar" id="GuardarPsd" update="pwd-form" action="#{usuarioInfoController.saveUsuario}" styleClass="ui-priority-primary" style="margin-top:10px" />		   		
+			   		
+		        </h:panelGrid>     		
+        	</h:form>
+		</p:dialog>
+    </ui:define>
+    
+</ui:composition>

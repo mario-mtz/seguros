@@ -28,6 +28,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String psw = authentication.getCredentials().toString();
         
         if (this.apiService.authenticate(usr, psw)) {
+        //if (true) {
         	List<Role> roles = new ArrayList<Role>();
         	roles.add(new Role("admin"));
             return new UsernamePasswordAuthenticationToken(usr, psw, roles);

@@ -6,36 +6,43 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 template="../template/main.xhtml">
     <h:head>
-        <title>Consultorio Inicio</title>
+        <title>Pandel</title>
         <h:outputStylesheet library="css" name="main.css"  />
     </h:head>
     <h:body>
-                <font color="red">
-		     <h:outputLabel value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
-                </font>
-		<form action="${request.contextPath}/login" method="POST">
-                    <p:fieldset legend="Inicio Sesión" style="width: 30%; margin: 0 auto; margin-top: 20%">
-                        <p:panelGrid style="width: 100%">
-                            <p:row>
-                                <p:column><h:outputLabel value="Usuario:" /></p:column>
-                                <p:column><input type="text" name="username"/></p:column>
-                            </p:row>
-                            <p:row>
-                                <p:column><h:outputLabel value="Contraseña:" /></p:column>
-                                <p:column><input type="password" name="password"/> </p:column>	
-                            </p:row>
-                            <p:row>
-                                <p:column colspan="2">
-                                    <div class="buttonHolder">
-                                        <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                                            <span class="ui-button-text ui-c">Entrar</span>
-                                        </button>                      
-                                    </div>    
-                                </p:column>                                
-                            </p:row>
-                        </p:panelGrid>
-			
-                    </p:fieldset>
+<!--                 <font color="red"> -->
+<!-- 		     <h:outputLabel value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/> -->
+<!--                 </font> -->
+		<form action="${request.contextPath}/login" method="POST">                    
+              <p:panelGrid style="width: 30%; margin: 0 auto; margin-top: 10%;margin-right: 45%" >
+              	  <p:row>
+                      <p:column colspan="2">
+                      	<h:graphicImage style="float:right" library="images" name="normal.jpg" width="300" height="200" title="Empresa"/>
+                      </p:column>
+                  </p:row>    
+                  <p:row>
+                      <p:column><h:outputLabel style="float:right" value="Usuario:" /></p:column>
+                      <p:column><input type="text" style="float:right; width: 100%" name="username"/></p:column>
+                  </p:row>
+                  <p:row>
+                      <p:column><h:outputLabel style="float:right" value="Contraseña:" /></p:column>
+                      <p:column><input type="password" style="float:right;width: 100%" name="password"/> </p:column>	
+                  </p:row>
+                  <p:row>
+                  	<p:column >
+                  		<h:form>                            		
+                  		<a href="/public/UsuarioInfo.xhtml?action=reg" class="ui-link ui-widget" style="float:right;margin-top: 3%">Registrarse</a>									 
+                  		</h:form>
+                  	</p:column> 
+                      <p:column >
+                          <div class="buttonHolder" style="margin-top: 3%">
+                              <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" >
+                                  <span class="ui-button-text ui-c" >Entrar</span>
+                              </button>                      
+                          </div>    
+                      </p:column>                                
+                  </p:row>
+              </p:panelGrid>                                
 		</form>
     </h:body>
 </html>  

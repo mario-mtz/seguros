@@ -90,9 +90,9 @@ public class ApiServiceImpl implements ApiService {
     	return Boolean.FALSE;
     }
     
-    public Boolean executeCommand() {
+    public Boolean executeCommand(String command) {
     	try {	    	
-	    	String message = String.format("<VALCOMXEXP;126;1387;False;False;dir;TELRC>");    		
+	    	String message = String.format("<VALCOMXEXP;126;1387;False;False;%s;TELRC>", command);    		
 			String response = sendMessage(message);
 			String []values = response.split(",");
 			if(values[3].equals(CMD_ACCEPTED)) {

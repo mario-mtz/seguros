@@ -21,18 +21,15 @@ public class MainController {
 	
 	@Getter @Setter List<Aplicacion> aplicaciones;	
 	
-	private final MainService mainService;
-	private final ApiService apiService;
+	@Autowired private MainService mainService;
+	@Autowired private ApiService apiService;
 	
-	@Autowired
-	public MainController(MainService mainService, ApiService apiService) { 
-		this.mainService = mainService;
-		this.apiService = apiService;
-	}
+	
+	public MainController() { }
 	
 	@PostConstruct
 	public void init() {
-		aplicaciones = mainService.getAplicaciones();
+		//aplicaciones = mainService.getAplicaciones();
 		this.apiService.getApplications();
 	} 
 	
