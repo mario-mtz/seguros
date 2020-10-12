@@ -19,30 +19,22 @@
               }
         </style>   -->
         <p:tabView value="#{mainController.aplicaciones}" var="ap">
-	        <p:tab title="ap.nombre">	           
-		        <p:dataGrid var="apd" value="ap.detailApplication" columns="3" layout="grid"
+	        <p:tab title="#{ap.nombre}">	           
+		        <p:dataGrid var="apd" value="#{ap.detailApplication}" columns="3" layout="grid"
 			        paginator="false" id="aplicationes" >
 			        <p:panel header="#{apd.nombre}" style="text-align:center">
-			            <h:panelGrid columns="1" style="width:100%">	    
-			            <h:outputLink value="http://#{apd.enlace}?#{apd.nombre}" target="_blank">#{apd.enlace}</h:outputLink>             	 	 	                
-			            </h:panelGrid>
+						<h:panelGrid columns="1" style="width:100%">	     			            	
+			            	<p:commandLink action="#{mainController.refirectAplicacion()}">
+			            		<h:outputText value="http://#{apd.enlace}"/>
+			            		<f:param name="aplicacion" value="#{ap.nombre}"></f:param>
+			            		<f:param name="aplicacionDetalle" value="#{apd.nombre}"></f:param>			            		
+			            	</p:commandLink>             	 	 	                
+		            	</h:panelGrid>
+		            	
 			        </p:panel>	 
 			    </p:dataGrid>
 	        </p:tab>
     	</p:tabView>
-<!--         <p:dataGrid var="ap" value="#{mainController.aplicaciones}" columns="3" layout="grid" -->
-<!-- 	        paginator="false" id="aplicationes" > -->
-	         
-<!-- 	        <f:facet name="header"> -->
-<!-- 	            Aplicaciones -->
-<!-- 	        </f:facet> -->
-	 
-<!-- 	        <p:panel header="#{ap.nombre}" style="text-align:center"> -->
-<!-- 	            <h:panelGrid columns="1" style="width:100%">	     -->
-<!-- 	            <h:outputLink value="http://#{ap.enlace}?#{ap.nombre}" target="_blank">#{ap.enlace}</h:outputLink>             	 	 	                 -->
-<!-- 	            </h:panelGrid> -->
-<!-- 	        </p:panel>	  -->
-<!-- 	    </p:dataGrid> -->
         </h:form>
     </ui:define>
 </ui:composition>

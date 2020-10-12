@@ -25,19 +25,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
     public Authentication authenticate(Authentication authentication) 
       throws AuthenticationException {
- 
+		UserAuth user = (UserAuth) authentication.getPrincipal();
         String usr = authentication.getName();
         //String psw = authentication.getCredentials().toString();
         String psw = "Demo01234";
-        SessionData sessionData = this.apiService.authenticate(usr, psw); 
-        if (sessionData.getResultadoAut()) {
-        //if (true) {
-        	List<Role> roles = new ArrayList<Role>();
-        	roles.add(new Role("admin"));
-            return new UsernamePasswordAuthenticationToken(buildUserForAuthentication(usr, psw,roles, sessionData), psw, roles);
-        } else {
-            return null;
-        }
+        
+        return new UsernamePasswordAuthenticationToken(user, psw, user.getAuthorities());       
     }
  
     @Override
@@ -45,17 +38,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
     
-    private UserAuth buildUserForAuthentication(String username, String password, 
-    		List<Role> authorities,  SessionData sessionData) {
-		    boolean enabled = true;
-		    boolean accountNonExpired = true;
-		    boolean credentialsNonExpired = true;
-		    boolean accountNonLocked = true;
-
-		    UserAuth userAuth = new UserAuth(username, password, enabled, accountNonExpired, credentialsNonExpired,
-		            accountNonLocked, authorities);
-		    userAuth.setNuc(sessionData.getNuc());
-		    userAuth.setNuu(sessionData.getNuu());
-		  return userAuth;
-	}
 }

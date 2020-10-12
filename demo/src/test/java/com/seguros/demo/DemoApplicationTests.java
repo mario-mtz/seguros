@@ -9,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seguros.demo.model.Usuario;
 import com.seguros.demo.service.UsuarioService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {DemoApplication.class})
+@Transactional
 class DemoApplicationTests {
 	
 	Logger logger = LoggerFactory.getLogger(DemoApplicationTests.class);

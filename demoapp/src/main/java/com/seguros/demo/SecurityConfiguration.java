@@ -1,5 +1,6 @@
 package com.seguros.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,23 +21,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
         return super.authenticationManagerBean();
     }
 	
-	@Bean
-	public LogoutSuccessHandler logoutSuccessHandler() {
-	    return new CustomLogoutSuccessHandler();
-	}
+	@Autowired
+    private CustomAuthenticationProvider authProvider;
+//	
+//	@Bean
+//	public LogoutSuccessHandler logoutSuccessHandler() {
+//	    return new CustomLogoutSuccessHandler();
+//	}
 	
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
       throws Exception {
-        auth
-          .inMemoryAuthentication()
-          .withUser("user")
-            .password(passwordEncoder().encode("user"))
-            .roles("USER")
-            .and()
-          .withUser("admin")
-            .password(passwordEncoder().encode("admin"))
-            .roles( "ADMIN");
+    	auth.authenticationProvider(authProvider);
+//        auth
+//          .inMemoryAuthentication()
+//          .withUser("user")
+//            .password(passwordEncoder().encode("user"))
+//            .roles("USER")
+//            .and()
+//          .withUser("admin")
+//            .password(passwordEncoder().encode("admin"))
+//            .roles( "ADMIN");
     }
     
     @Override
@@ -62,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/Login.xhtml")
-                .logoutSuccessHandler(logoutSuccessHandler())
+//                .logoutSuccessHandler(logoutSuccessHandler())
                 .and().httpBasic();
     }
 

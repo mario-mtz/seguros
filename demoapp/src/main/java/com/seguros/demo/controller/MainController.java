@@ -1,6 +1,7 @@
 package com.seguros.demo.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -10,9 +11,11 @@ import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.seguros.demo.model.Aplicacion;
+import com.seguros.demo.model.UserAuth;
 import com.seguros.demo.service.ApiService;
 import com.seguros.demo.service.MainService;
 
@@ -25,7 +28,6 @@ public class MainController {
 	
 	@Getter @Setter List<Aplicacion> aplicaciones;	
 	
-	private final MainService mainService;
     private final ApiService apiService;
     
     @Getter @Setter private BarChartModel barModel;
@@ -33,14 +35,17 @@ public class MainController {
 	@Getter @Setter private Boolean commandAvailable = false;
 	
 	@Autowired
-	public MainController(MainService mainService, ApiService apiService) { 
-		this.mainService = mainService;
+	public MainController(ApiService apiService) {
+		UserAuth user =(UserAuth)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(user.getUsername());
+		System.out.println(user.getUsuario());
+		System.out.println(user.getNuc());
+		System.out.println(user.getNuu());
 		this.apiService = apiService;
 	}
 	
 	@PostConstruct
 	public void init() {
-		aplicaciones = mainService.getAplicaciones();
 		createBarModel();
 	} 
 	

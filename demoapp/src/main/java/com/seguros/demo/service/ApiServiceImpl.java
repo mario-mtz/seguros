@@ -6,18 +6,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.util.StringUtils;
 
-import com.seguros.demo.model.ApplicationData;
 import com.seguros.demo.model.SessionData;
 
 @Service	
@@ -25,8 +20,9 @@ public class ApiServiceImpl implements ApiService {
 	
 	Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
 	
-	final static String CMD_ACCEPTED = "2";
+	final static String CMD_ACCEPTED = "1";
 	final static String OK = "OK";
+	final static String NOT_NULL_RESPONSE = "null";
 	@Value("${conf.socket.server}")
 	private String server;
 	@Value("${conf.socket.port}")
@@ -38,57 +34,33 @@ public class ApiServiceImpl implements ApiService {
 	
 	private Socket clientSocket;
     private OutputStream out;
-    private BufferedReader in;
+    private BufferedReader in;        
     
-    private SessionData session = new SessionData();
-    
-    public Boolean authenticate(String usr, String psw) {
+    public SessionData authenticate(String accesCode) {
+    	SessionData session = new SessionData();
     	try {
-			String message = String.format("<VALLOGAGEN;%s;%s>", usr, psw);
+			String message = String.format("<GETCFGACTR;%s>", accesCode);
 			String response = sendMessage(message);
-			if(response.contains(OK)) {
-				String [] values = response.split(";");
-				session.setNuu(values[1]);
-				session.setNuc(values[2]);
-				return Boolean.TRUE;
+			if(!StringUtils.isEmpty(response) && !response.contains(NOT_NULL_RESPONSE)) {				
+				String [] values = response.split(":");
+				session.setAplicacion(values[0]);
+				session.setUsuario(values[1]);
+				session.setPassword(values[2]);
+				session.setAplicacionDetalle(values[5]);
+				session.setNuu(values[6]);
+				session.setNuc(values[7]);
+				
+				session.setResponse(Boolean.TRUE);
+				return session;
 			}    		
 		} catch (Exception e) {
 			logger.error("Error en authenticate -> ", e);
 		}
-    	return Boolean.FALSE;
+    	session.setResponse(Boolean.FALSE);
+    	return session;
     } 
     
-    public List<String> getApplications() {
-    	try {	    	
-	    	String message = String.format("<CFGUSRXSSO;%s;%s;TELRC;Servidor Finanzas Telnet;192.168.1.10>", session.getNuc(), session.getNuu());    		
-			String response = sendMessage(message);
-			if(response.contains(OK)) {
-				Arrays.asList("TELRC");
-			}
-	    } catch (Exception e) {
-			logger.error("Error en getApplications -> ", e);
-		}
-    	return new ArrayList<String>();
-    }
-    
-    public Boolean getApplicationsCredentials() {
-    	try {	    	
-	    	String message = String.format("<GETCFGACTU;126;1387;TELRC>", session.getNuc(), session.getNuu());    		
-			String response = sendMessage(message);
-			if(response.contains("TELRC")) {
-				String []values = response.split(":");
-				ApplicationData ad = new ApplicationData();
-				ad.setAppName(values[0]);
-				ad.setAppName(values[1]);
-				ad.setAppName(values[2]);
-				session.getAppData().add(ad);
-				return Boolean.TRUE;
-			}
-	    } catch (Exception e) {
-			logger.error("Error en getApplications -> ", e);
-		}
-    	return Boolean.FALSE;
-    }
+   
     
     public Boolean executeCommand(String command) {
     	try {	    	
@@ -102,20 +74,7 @@ public class ApiServiceImpl implements ApiService {
 			logger.error("Error en getApplications -> ", e);
 		}
     	return Boolean.FALSE;
-    }        
-        
-    public Boolean closeSession() {
-    	try {	    	
-	    	String message = String.format("<DELALLSESS;126;1387>");    		
-			String response = sendMessage(message);
-			if(response.contains(OK)) {
-				return Boolean.TRUE;
-			}
-	    } catch (Exception e) {
-			logger.error("Error en getApplications -> ", e);
-		}
-    	return Boolean.FALSE;
-    }       
+    }           
 	
 	private void startConnection() throws IOException {
         clientSocket = new Socket(server, Integer.parseInt(port));

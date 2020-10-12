@@ -23,7 +23,7 @@ public class ApiServiceImpl implements ApiService {
 	
 	Logger logger = LoggerFactory.getLogger(ApiServiceImpl.class);
 	
-	final static String CMD_ACCEPTED = "2";
+	final static String CMD_ACCEPTED = "1";
 	final static String OK = "OK";
 	final static String NOT_NULL_RESPONSE = "null";
 	final static String SESSION_OBJ = "sessionData";
@@ -65,7 +65,7 @@ public class ApiServiceImpl implements ApiService {
 	    	String message = String.format("<GETTECXCSG;%s;%s>", user.getNuc(), user.getNuu());    		
 			String response = sendMessage(message);
 			if(!response.contains(NOT_NULL_RESPONSE)) {
-				String apps[] = message.split(",");
+				String apps[] = response.split(",");
 				for(String a : apps) {
 					List<Aplicacion> aplicacionesDetalle = getAplicacionesDetalle(a, user);
 					aplicaciones.add(new Aplicacion(a, null, aplicacionesDetalle));
@@ -82,8 +82,8 @@ public class ApiServiceImpl implements ApiService {
     	try {	    	
 	    	String message = String.format("<GETSERXTEC;%s;%s;%s>", user.getNuc(), user.getNuu(), aplicacion);    		
 			String response = sendMessage(message);
-			if(response.contains(NOT_NULL_RESPONSE)) {
-				String apps[] = message.split(",");
+			if(!response.contains(NOT_NULL_RESPONSE)) {
+				String apps[] = response.split(",");
 				for(String a : apps) {				
 					aplicaciones.add(new Aplicacion(a, "localhost:8081/auth/index.xhtml", null));
 				}
@@ -96,7 +96,7 @@ public class ApiServiceImpl implements ApiService {
     
     public String getAlicacionAut(UserAuth user, String aplicacion, String aplicacionDetalle) {
     	try {	    	
-	    	String message = String.format("<CFGUSRSSOR;%s;%s;%s;%s:255.255.255.255>", user.getNuc(), user.getNuu(), aplicacion, aplicacionDetalle);    		
+	    	String message = String.format("<CFGUSRSSOR;%s;%s;%s;%s;255.255.255.255>", user.getNuc(), user.getNuu(), aplicacion, aplicacionDetalle);    		
 			String response = sendMessage(message);
 			if(response.contains(OK)) {
 				String []values = response.split(",");				

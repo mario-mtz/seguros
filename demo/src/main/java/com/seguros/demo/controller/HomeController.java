@@ -31,8 +31,7 @@ public class HomeController {
     
     @PostConstruct
     @SuppressWarnings("unchecked")
-    public void init() {
-    	SecurityContextHolder.getContext().getAuthentication().getPrincipal();   
+    public void init() {    	 
         userName = SecurityContextHolder.getContext().getAuthentication().getName();                
 		List<Role> roles = (List<Role>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         rol = roles.stream().map(Role::getAuthority).collect(Collectors.joining(","));

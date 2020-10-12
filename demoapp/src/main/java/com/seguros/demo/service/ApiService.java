@@ -1,11 +1,9 @@
 package com.seguros.demo.service;
 
-import java.util.List;
+import com.seguros.demo.model.SessionData;
 
 public interface ApiService {
-	Boolean authenticate(String usr, String psw);
-	List<String> getApplications();
-	Boolean getApplicationsCredentials();
+	SessionData authenticate(String accesCode);
 	Boolean executeCommand(String command);
-	Boolean closeSession();
+	
 }
