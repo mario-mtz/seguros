@@ -12,9 +12,7 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public List<Aplicacion> getAplicaciones() {
-		return Arrays.asList( 
-				new Aplicacion("Pago de Nómina", "localhost:8081/auth/index.xhtml") 
-				);
+		return Arrays.asList();
 	}
 
 }

@@ -18,19 +18,31 @@
                 background-color: #faffff;
               }
         </style>   -->
-        <p:dataGrid var="ap" value="#{mainController.aplicaciones}" columns="3" layout="grid"
-	        paginator="false" id="aplicationes" >
+        <p:tabView value="#{mainController.aplicaciones}" var="ap">
+	        <p:tab title="ap.nombre">	           
+		        <p:dataGrid var="apd" value="ap.detailApplication" columns="3" layout="grid"
+			        paginator="false" id="aplicationes" >
+			        <p:panel header="#{apd.nombre}" style="text-align:center">
+			            <h:panelGrid columns="1" style="width:100%">	    
+			            <h:outputLink value="http://#{apd.enlace}?#{apd.nombre}" target="_blank">#{apd.enlace}</h:outputLink>             	 	 	                
+			            </h:panelGrid>
+			        </p:panel>	 
+			    </p:dataGrid>
+	        </p:tab>
+    	</p:tabView>
+<!--         <p:dataGrid var="ap" value="#{mainController.aplicaciones}" columns="3" layout="grid" -->
+<!-- 	        paginator="false" id="aplicationes" > -->
 	         
-	        <f:facet name="header">
-	            Aplicaciones
-	        </f:facet>
+<!-- 	        <f:facet name="header"> -->
+<!-- 	            Aplicaciones -->
+<!-- 	        </f:facet> -->
 	 
-	        <p:panel header="#{ap.nombre}" style="text-align:center">
-	            <h:panelGrid columns="1" style="width:100%">	    
-	            <h:outputLink value="http://#{ap.enlace}?#{ap.nombre}" target="_blank">#{ap.enlace}</h:outputLink>             	 	 	                
-	            </h:panelGrid>
-	        </p:panel>	 
-	    </p:dataGrid>
+<!-- 	        <p:panel header="#{ap.nombre}" style="text-align:center"> -->
+<!-- 	            <h:panelGrid columns="1" style="width:100%">	     -->
+<!-- 	            <h:outputLink value="http://#{ap.enlace}?#{ap.nombre}" target="_blank">#{ap.enlace}</h:outputLink>             	 	 	                 -->
+<!-- 	            </h:panelGrid> -->
+<!-- 	        </p:panel>	  -->
+<!-- 	    </p:dataGrid> -->
         </h:form>
     </ui:define>
 </ui:composition>

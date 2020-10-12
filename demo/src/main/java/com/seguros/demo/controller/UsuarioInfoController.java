@@ -1,13 +1,10 @@
 package com.seguros.demo.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +41,7 @@ public class UsuarioInfoController {
 		String action = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("action");
 		if(action.equals("update")) {			
 			List<Usuario> list = this.usuarioService.getUsuarios();
-			this.usuario = this.usuarioService.findByUsername("Test01");
+			this.usuario = this.usuarioService.findByUsername("Demo01");
 			this.isNew = Boolean.FALSE;
 			if(this.usuario == null) {
 				cancelar();

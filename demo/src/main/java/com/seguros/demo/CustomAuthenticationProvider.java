@@ -11,6 +11,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.seguros.demo.model.Role;
+import com.seguros.demo.model.SessionData;
+import com.seguros.demo.model.UserAuth;
 import com.seguros.demo.service.ApiService;
 
 @Component
@@ -27,11 +29,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String usr = authentication.getName();
         String psw = authentication.getCredentials().toString();
         
-        if (this.apiService.authenticate(usr, psw)) {
+        SessionData sessionData = this.apiService.authenticate(usr, psw); 
+        if (sessionData.getResultadoAut()) {
         //if (true) {
         	List<Role> roles = new ArrayList<Role>();
         	roles.add(new Role("admin"));
-            return new UsernamePasswordAuthenticationToken(usr, psw, roles);
+            return new UsernamePasswordAuthenticationToken(buildUserForAuthentication(usr, psw,roles, sessionData), psw, roles);
         } else {
             return null;
         }
@@ -41,4 +44,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+    
+    private UserAuth buildUserForAuthentication(String username, String password, 
+    		List<Role> authorities,  SessionData sessionData) {
+		    boolean enabled = true;
+		    boolean accountNonExpired = true;
+		    boolean credentialsNonExpired = true;
+		    boolean accountNonLocked = true;
+
+		    UserAuth userAuth = new UserAuth(username, password, enabled, accountNonExpired, credentialsNonExpired,
+		            accountNonLocked, authorities);
+		    userAuth.setNuc(sessionData.getNuc());
+		    userAuth.setNuu(sessionData.getNuu());
+		  return userAuth;
+	}
 }

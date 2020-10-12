@@ -7,18 +7,16 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.seguros.demo.model.ApplicationData;
+import com.seguros.demo.model.Aplicacion;
 import com.seguros.demo.model.SessionData;
+import com.seguros.demo.model.UserAuth;
 
 @Service	
 public class ApiServiceImpl implements ApiService {
@@ -27,6 +25,8 @@ public class ApiServiceImpl implements ApiService {
 	
 	final static String CMD_ACCEPTED = "2";
 	final static String OK = "OK";
+	final static String NOT_NULL_RESPONSE = "null";
+	final static String SESSION_OBJ = "sessionData";
 	@Value("${conf.socket.server}")
 	private String server;
 	@Value("${conf.socket.port}")
@@ -40,54 +40,72 @@ public class ApiServiceImpl implements ApiService {
     private OutputStream out;
     private BufferedReader in;
     
-    private SessionData session = new SessionData();
-    
-    public Boolean authenticate(String usr, String psw) {
+    public SessionData authenticate(String usr, String psw) {
+    	SessionData sessionData = new SessionData();
     	try {
 			String message = String.format("<VALLOGAGEN;%s;%s>", usr, psw);
 			String response = sendMessage(message);
 			if(response.contains(OK)) {
 				String [] values = response.split(";");
-				session.setNuu(values[1]);
-				session.setNuc(values[2]);
-				return Boolean.TRUE;
+				sessionData.setNuu(values[1]);
+				sessionData.setNuc(values[2]);
+				sessionData.setResultadoAut(Boolean.TRUE);
+				return sessionData;
 			}    		
 		} catch (Exception e) {
 			logger.error("Error en authenticate -> ", e);
 		}
-    	return Boolean.FALSE;
-    } 
-    
-    public List<String> getApplications() {
-    	try {	    	
-	    	String message = String.format("<CFGUSRXSSO;%s;%s;TELRC;Servidor Finanzas Telnet;192.168.1.10>", session.getNuc(), session.getNuu());    		
-			String response = sendMessage(message);
-			if(response.contains(OK)) {
-				Arrays.asList("TELRC");
-			}
-	    } catch (Exception e) {
-			logger.error("Error en getApplications -> ", e);
-		}
-    	return new ArrayList<String>();
+    	sessionData.setResultadoAut(Boolean.FALSE);
+    	return sessionData;
     }
     
-    public Boolean getApplicationsCredentials() {
+    public List<Aplicacion> getAplicaciones(UserAuth user) {
+    	List<Aplicacion> aplicaciones = new ArrayList<>(); 
     	try {	    	
-	    	String message = String.format("<GETCFGACTU;%s;%s;TELRC>", session.getNuc(), session.getNuu());    		
+	    	String message = String.format("<GETTECXCSG;%s;%s>", user.getNuc(), user.getNuu());    		
 			String response = sendMessage(message);
-			if(response.contains("TELRC")) {
-				String []values = response.split(":");
-				ApplicationData ad = new ApplicationData();
-				ad.setAppName(values[0]);
-				ad.setAppName(values[1]);
-				ad.setAppName(values[2]);
-				session.getAppData().add(ad);
-				return Boolean.TRUE;
+			if(!response.contains(NOT_NULL_RESPONSE)) {
+				String apps[] = message.split(",");
+				for(String a : apps) {
+					List<Aplicacion> aplicacionesDetalle = getAplicacionesDetalle(a, user);
+					aplicaciones.add(new Aplicacion(a, null, aplicacionesDetalle));
+				}
 			}
 	    } catch (Exception e) {
 			logger.error("Error en getApplications -> ", e);
 		}
-    	return Boolean.FALSE;
+    	return aplicaciones;
+    }
+    
+    public List<Aplicacion> getAplicacionesDetalle(String aplicacion, UserAuth user) {
+    	List<Aplicacion> aplicaciones = new ArrayList<>();
+    	try {	    	
+	    	String message = String.format("<GETSERXTEC;%s;%s;%s>", user.getNuc(), user.getNuu(), aplicacion);    		
+			String response = sendMessage(message);
+			if(response.contains(NOT_NULL_RESPONSE)) {
+				String apps[] = message.split(",");
+				for(String a : apps) {				
+					aplicaciones.add(new Aplicacion(a, "localhost:8081/auth/index.xhtml", null));
+				}
+			}
+	    } catch (Exception e) {
+			logger.error("Error en getApplications -> ", e);
+		}
+    	return aplicaciones;
+    }
+    
+    public String getAlicacionAut(UserAuth user, String aplicacion, String aplicacionDetalle) {
+    	try {	    	
+	    	String message = String.format("<CFGUSRSSOR;%s;%s;%s;%s:255.255.255.255>", user.getNuc(), user.getNuu(), aplicacion, aplicacionDetalle);    		
+			String response = sendMessage(message);
+			if(response.contains(OK)) {
+				String []values = response.split(",");				
+				return values[1];
+			}
+	    } catch (Exception e) {
+			logger.error("Error en getApplications -> ", e);
+		}
+    	return null;
     }
     
     public Boolean executeCommand() {
