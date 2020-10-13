@@ -48,8 +48,8 @@ public class ApiServiceImpl implements ApiService {
 				session.setUsuario(values[1]);
 				session.setPassword(values[2]);
 				session.setAplicacionDetalle(values[5]);
-				session.setNuu(values[6]);
-				session.setNuc(values[7]);
+				session.setNuc(values[6]);
+				session.setNuu(values[7]);
 				
 				session.setResponse(Boolean.TRUE);
 				return session;
