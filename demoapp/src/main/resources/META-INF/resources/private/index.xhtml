@@ -18,13 +18,18 @@
                 background-color: #faffff;
               }
         </style>   -->
-       	<p:commandButton value="Ver Gráfica DIR" id="ajax" update="panel" action="#{mainController.executeCommand}" styleClass="ui-priority-primary" />
+       	<p:commandButton value="Ver Gráfica DIR" id="ajax" update="panel" action="#{mainController.executeDirCommand}" styleClass="ui-priority-primary" />
        	<p:outputPanel id="panel">
        		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
        	</p:outputPanel>
        	<p:separator/>
-       	<p:commandButton value="Ver Gráfica LS" id="ajax2" update="panel2" action="#{mainController.executeExtraCommand}" styleClass="ui-priority-primary" />
+       	<p:commandButton value="Ver Gráfica LS" id="ajax2" update="panel2" action="#{mainController.executeLsCommand}" styleClass="ui-priority-primary" />
        	<p:outputPanel id="panel2">
+       		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
+       	</p:outputPanel>
+       	<p:separator/>
+       	<p:commandButton value="Ver Gráfica HELP" id="ajax2" update="panel3" action="#{mainController.executeHelpCommand}" styleClass="ui-priority-primary" />
+       	<p:outputPanel id="panel3">
        		<p:chart rendered="#{mainController.commandAvailable}" type="bar" model="#{mainController.barModel}" style="height:300px"/>
        	</p:outputPanel>
         </h:form>

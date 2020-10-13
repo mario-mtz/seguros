@@ -31,16 +31,10 @@ public class MainController {
     private final ApiService apiService;
     
     @Getter @Setter private BarChartModel barModel;
-
 	@Getter @Setter private Boolean commandAvailable = false;
 	
 	@Autowired
 	public MainController(ApiService apiService) {
-		UserAuth user =(UserAuth)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(user.getUsername());
-		System.out.println(user.getUsuario());
-		System.out.println(user.getNuc());
-		System.out.println(user.getNuu());
 		this.apiService = apiService;
 	}
 	
@@ -49,12 +43,20 @@ public class MainController {
 		createBarModel();
 	} 
 	
-	public void executeCommand() {
-		this.commandAvailable = this.apiService.executeCommand("dir");
+	private UserAuth getPrincipal() {
+		return (UserAuth)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 	
-	public void executeExtraCommand() {
-		this.commandAvailable = this.apiService.executeCommand("ls");
+	public void executeDirCommand() {
+		this.commandAvailable = this.apiService.executeCommand("dir", getPrincipal());
+	}
+	
+	public void executeLsCommand() {
+		this.commandAvailable = this.apiService.executeCommand("ls", getPrincipal());
+	}
+	
+	public void executeHelpCommand() {
+		this.commandAvailable = this.apiService.executeCommand("hel", getPrincipal());
 	}
 	
 	private void createBarModel() {

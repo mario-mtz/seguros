@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
+import com.seguros.demo.model.UserAuth;
 import com.seguros.demo.service.ApiService;
 
 public class CustomLogoutSuccessHandler extends 
@@ -24,7 +25,8 @@ SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
       HttpServletResponse response, 
       Authentication authentication) 
       throws IOException, ServletException {
-		apiService.closeSession();
+		UserAuth user = (UserAuth) authentication.getPrincipal();
+		apiService.closeSession(user);
         //super.onLogoutSuccess(request, response, authentication);
 		String basePath = String.format("%s://%s:%s", request.getScheme(), request.getServerName(), request.getServerPort());  
 		String otherContext = "Login.xhtml";

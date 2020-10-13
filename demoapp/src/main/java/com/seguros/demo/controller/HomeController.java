@@ -63,8 +63,7 @@ public class HomeController {
     		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(buildUserForAuthentication("admin", "admin", roles, sessionData), "admin", roles);
     	    //authToken.setDetails(new WebAuthenticationDetails((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()));
     	    
-    	    Authentication authentication = authenticationManager.authenticate(authToken);
-    	    
+    	    Authentication authentication = authenticationManager.authenticate(authToken);    	    
     	    SecurityContextHolder.getContext().setAuthentication(authentication);    	    
         	    	
 //            userName = sessionData.getUsuario();        

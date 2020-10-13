@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.seguros.demo.model.SessionData;
+import com.seguros.demo.model.UserAuth;
 
 @Service	
 public class ApiServiceImpl implements ApiService {
@@ -58,13 +59,11 @@ public class ApiServiceImpl implements ApiService {
 		}
     	session.setResponse(Boolean.FALSE);
     	return session;
-    } 
+    }        
     
-   
-    
-    public Boolean executeCommand(String command) {
+    public Boolean executeCommand(String command, UserAuth user) {
     	try {	    	
-	    	String message = String.format("<VALCOMXEXP;126;1387;False;False;%s;TELRC>", command);    		
+	    	String message = String.format("<VALCOMXEXP;%s;%s;False;False;%s;%s>", user.getNuc(), user.getNuu(), command, user.getAplicacion());    		
 			String response = sendMessage(message);
 			String []values = response.split(",");
 			if(values[3].equals(CMD_ACCEPTED)) {

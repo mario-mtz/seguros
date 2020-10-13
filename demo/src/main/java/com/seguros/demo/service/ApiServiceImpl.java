@@ -106,25 +106,11 @@ public class ApiServiceImpl implements ApiService {
 			logger.error("Error en getApplications -> ", e);
 		}
     	return null;
-    }
-    
-    public Boolean executeCommand() {
-    	try {	    	
-	    	String message = String.format("<VALCOMXEXP;126;1387;False;False;dir;TELRC>");    		
-			String response = sendMessage(message);
-			String []values = response.split(":");
-			if(values[3].equals(CMD_ACCEPTED)) {
-				return Boolean.TRUE;
-			}
-	    } catch (Exception e) {
-			logger.error("Error en getApplications -> ", e);
-		}
-    	return Boolean.FALSE;
-    }        
+    }      
         
-    public Boolean closeSession() {
+    public Boolean closeSession(UserAuth user) {
     	try {	    	
-	    	String message = String.format("<DELALLSESS;126;1387>");    		
+	    	String message = String.format("<DELALLSESS;%s;%s>", user.getNuc(), user.getNuu());    		
 			String response = sendMessage(message);
 			if(response.contains(OK)) {
 				return Boolean.TRUE;

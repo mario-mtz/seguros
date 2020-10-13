@@ -10,6 +10,5 @@ public interface ApiService {
 	SessionData authenticate(String usr, String psw);	
     List<Aplicacion> getAplicaciones(UserAuth user); 
     String getAlicacionAut(UserAuth user, String aplicacion, String aplicacionDetalle);
-	Boolean executeCommand();
-	Boolean closeSession();
+	Boolean closeSession(UserAuth user);
 }
